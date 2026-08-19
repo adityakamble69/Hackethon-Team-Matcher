@@ -21,15 +21,17 @@
       <source {src} type="video/mp4" />
     </video>
   {/if}
+  <div class="bg-overlay"></div>
 </div>
 
 <style>
+  /* Fixed so it stays put behind every route, no matter how the page scrolls. */
   .bg {
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: radial-gradient(120% 120% at 50% 0%, #141414 0%, #000 60%);
     overflow: hidden;
-    z-index: 0;
+    z-index: -1;
   }
   .bg-video {
     position: absolute;
@@ -38,5 +40,11 @@
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+  }
+  /* Keeps text/cards readable over the footage on every page. */
+  .bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
   }
 </style>

@@ -2,9 +2,9 @@
 // Header.svelte and MobileMenu.svelte both import this so links never drift apart.
 export const navLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Product', href: '/product' },
-  { label: 'Case Studies', href: '/case-studies' },
-  { label: 'Contact', href: '/contact' }
+  { label: 'Team', href: '/teams' },
+  { label: 'Hackathons', href: '/hackathons' },
+  { label: 'Rankers', href: '/rankers' }
 ];
 
 // Decides whether a given link is "active" based on the current route.

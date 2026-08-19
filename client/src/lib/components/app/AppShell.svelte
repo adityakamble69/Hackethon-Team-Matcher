@@ -48,7 +48,7 @@
   .shell {
     min-height: 100vh;
     min-height: 100dvh;
-    background: var(--bg);
+    background: transparent;
     display: flex;
     flex-direction: column;
   }

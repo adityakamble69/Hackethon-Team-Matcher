@@ -7,6 +7,8 @@ import requestRoutes from './routes/request.routes.js';
 import teamRoutes from './routes/team.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import statsRoutes from './routes/stats.routes.js';
+import hackathonRoutes from './routes/hackathon.routes.js';
+import rankingRoutes from './routes/ranking.routes.js';
 
 const app = express();
 
@@ -21,5 +23,7 @@ app.use('/api', requestRoutes);
 app.use('/api', teamRoutes);
 app.use('/api', adminRoutes);
 app.use('/api', statsRoutes);
+app.use('/api', hackathonRoutes);
+app.use('/api', rankingRoutes);
 
 export default app;

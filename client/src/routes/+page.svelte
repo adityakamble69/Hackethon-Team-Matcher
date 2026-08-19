@@ -1,5 +1,4 @@
 <script>
-  import VideoBg from '$lib/components/landing/VideoBg.svelte';
   import Header from '$lib/components/landing/Header.svelte';
   import MobileMenu from '$lib/components/landing/MobileMenu.svelte';
   import Hero from '$lib/components/landing/Hero.svelte';
@@ -7,8 +6,6 @@
 
   let mobileMenuOpen = false;
 </script>
-
-<VideoBg />
 
 <div class="page" class:menu-open={mobileMenuOpen}>
   <Header bind:mobileMenuOpen />

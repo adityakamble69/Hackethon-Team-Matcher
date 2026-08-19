@@ -1,4 +1,4 @@
-import { getTeamForUser } from '../models/team.model.js';
+import { getTeamForUser, getAllTeams } from '../models/team.model.js';
 import { supabase } from '../config/supabaseClient.js';
 
 export async function getMyTeam(req, res) {
@@ -42,6 +42,16 @@ export async function getMyTeam(req, res) {
       filled_roles: [...new Set(filledRoles)],
       missing_roles: missingRoles,
     });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}
+
+// Every formed team across the platform — powers the public "Teams" page.
+export async function getAllTeamsHandler(req, res) {
+  try {
+    const teams = await getAllTeams();
+    res.json(teams);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

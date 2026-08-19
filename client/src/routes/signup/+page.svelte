@@ -102,7 +102,7 @@
     justify-content: center;
     gap: 28px;
     padding: 24px;
-    background: var(--bg);
+    background: transparent;
     position: relative;
   }
 

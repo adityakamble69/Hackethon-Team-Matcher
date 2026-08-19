@@ -25,7 +25,8 @@
 }
 
 body {
-  background: var(--bg);
+  /* Actual background now comes from the fixed VideoBg in +layout.svelte on every route. */
+  background: transparent;
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

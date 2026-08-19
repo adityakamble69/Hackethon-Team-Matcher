@@ -48,7 +48,7 @@
     display: flex;
     justify-content: center;
     padding: 48px 24px;
-    background: var(--bg);
+    background: transparent;
   }
 
   .onboarding-card {

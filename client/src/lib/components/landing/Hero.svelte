@@ -11,16 +11,16 @@
   <div class="trust-row anim" style="--d: 0.05s">
     <div class="avatars">
       <span class="avatar" style="z-index: 1;">
-        <span class="avatar-inner"><i class="fa-brands fa-microsoft" aria-hidden="true"></i></span>
+        <span class="avatar-inner"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></span>
       </span>
       <span class="avatar" style="z-index: 2;">
-        <span class="avatar-inner"><i class="fa-brands fa-amazon" aria-hidden="true"></i></span>
+        <span class="avatar-inner"><i class="fa-solid fa-code" aria-hidden="true"></i></span>
       </span>
       <span class="avatar" style="z-index: 4;">
-        <span class="avatar-inner"><i class="fa-brands fa-google" aria-hidden="true"></i></span>
+        <span class="avatar-inner"><i class="fa-solid fa-trophy" aria-hidden="true"></i></span>
       </span>
     </div>
-    <span class="trust-pill">Trusted by 2000+ Enterprises</span>
+    <span class="trust-pill">Built for Campus Hackathon Teams</span>
   </div>
 
   <h1 class="headline anim">

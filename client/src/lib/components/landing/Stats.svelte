@@ -5,10 +5,10 @@
   // Static shape (icon/label/suffix) stays here; the actual numeric targets
   // are filled in from GET /api/stats/public once it resolves.
   const statMeta = [
-    { icon: '<', suffix: '', decimals: 0, label: 'Students Matched' },
-    { icon: '%', suffix: '%', decimals: 0, label: 'Match Satisfaction' },
-    { icon: '*', suffix: '', decimals: 0, label: 'Open Requests' },
-    { icon: '#', suffix: '', decimals: 0, label: 'Teams Formed' }
+    { icon: 'fa-solid fa-user-graduate', suffix: '', decimals: 0, label: 'Students Matched' },
+    { icon: 'fa-solid fa-face-smile', suffix: '%', decimals: 0, label: 'Match Satisfaction' },
+    { icon: 'fa-solid fa-envelope-open-text', suffix: '', decimals: 0, label: 'Open Requests' },
+    { icon: 'fa-solid fa-people-group', suffix: '', decimals: 0, label: 'Teams Formed' }
   ];
 
   let targets = [0, 0, 0, 0];
@@ -102,7 +102,7 @@
 <section class="stats" bind:this={sectionEl}>
   {#each statMeta as stat, i}
     <div class="stat anim" style="--d: {0.5 + i * 0.08}s">
-      <span class="icon">{stat.icon}</span>
+      <span class="icon"><i class={stat.icon} aria-hidden="true"></i></span>
       <span class="value">{formatValue(i)}</span>
       <span class="label">{stat.label}</span>
     </div>
@@ -129,10 +129,10 @@
   }
 
   .icon {
-    font-family: var(--font-display);
     color: #fff;
-    font-size: clamp(22px, 3vw, 33px);
+    font-size: clamp(18px, 2.4vw, 26px);
     line-height: 1;
+    opacity: 0.85;
   }
 
   .value {

@@ -4,6 +4,7 @@
   import { supabase } from '$lib/supabaseClient.js';
   import { user, session, profile } from '$lib/stores/auth.js';
   import { apiFetch } from '$lib/api/client.js';
+  import VideoBg from '$lib/components/landing/VideoBg.svelte';
 
   async function refreshProfile() {
     try {
@@ -30,5 +31,7 @@
     return () => authListener.subscription.unsubscribe();
   });
 </script>
+
+<VideoBg />
 
 <slot />
