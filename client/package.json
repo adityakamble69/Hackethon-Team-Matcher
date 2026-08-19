@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "engines": {
-  "node": "22.x"
-},
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -24,6 +24,4 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.43.0"
   }
-
-  
 }
