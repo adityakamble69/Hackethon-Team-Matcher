@@ -3,11 +3,11 @@
 Break the build into phases so progress is trackable and there's always a demoable state. Update checkboxes and note dates in `memory.md`, not here — this file defines the plan, `memory.md` tracks actual status.
 
 ## Phase 0 — Setup (Day 1, first 1–2 hrs)
-- [ ] Finalize tech stack (per architecture.md decision note)
-- [ ] Init repo, folder structure per architecture.md
-- [ ] Set up client (Vite + React + Tailwind) and server (Express) skeletons
-- [ ] Set up database (Supabase/Mongo Atlas/Firebase) and connect
-- [ ] Add `.env.example`, confirm `.env` is gitignored
+- [x] Finalize tech stack (per architecture.md decision note)
+- [x] Init repo, folder structure per architecture.md
+- [x] Set up client (Vite + React + Tailwind) and server (Express) skeletons
+- [x] Set up database (Supabase/Mongo Atlas/Firebase) and connect
+- [x] Add `.env.example`, confirm `.env` is gitignored
 - [ ] Deploy a "hello world" of both frontend and backend to confirm pipeline works end-to-end early
 
 ## Phase 1 — Design System & Landing Page
