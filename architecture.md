@@ -160,8 +160,13 @@ create table profiles (
   github_url text,
   linkedin_url text,
   hackathon text,
+  role text check (role in ('student', 'admin')) default 'student',
   created_at timestamptz default now()
 );
+-- role defaults to 'student'; capped at max 2 'admin' rows via a DB trigger
+-- (enforce_admin_cap, see supabase/schema.sql) plus a backend check in
+-- admin.controller.js. Admins register through a dedicated /admin-signup
+-- flow, not the normal onboarding form.
 
 -- team_requests
 create table team_requests (

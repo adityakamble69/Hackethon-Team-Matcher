@@ -18,7 +18,9 @@
 
 {#if open}
   <div class="overlay" on:click={onClose} role="presentation">
-    <div class="sheet" on:click|stopPropagation role="menu">
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div class="sheet" on:click|stopPropagation>
       {#each links as link, i}
         <a href={link.href} class:active={link.active} style="--d: {i * 0.06}s" on:click={onClose}>
           {link.label}

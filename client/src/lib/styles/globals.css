@@ -29,6 +29,13 @@ body {
   color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Only the single-viewport landing page locks scroll — see design.md §1/§4. Every other
+   screen (auth, discover, profile, etc.) needs normal document scrolling. */
+body:has(.page) {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;

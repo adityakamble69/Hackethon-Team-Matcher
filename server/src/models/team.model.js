@@ -10,6 +10,11 @@ export async function getTeamForUser(userId) {
   return data;
 }
 
+export async function addMemberToTeam(teamId, userId, role = null) {
+  const { error } = await supabase.from('team_members').insert({ team_id: teamId, user_id: userId, role });
+  if (error) throw error;
+}
+
 export async function createTeamWithMembers(name, hackathon, memberIds) {
   const { data: team, error: teamError } = await supabase
     .from('teams')

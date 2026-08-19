@@ -1,9 +1,28 @@
--- Hackathon Team Matcher — Supabase Postgres schema
--- Run this in the Supabase SQL editor. See architecture.md §6 for full context.
+-- Hackathon Team Matcher — FULL RESET
+-- WARNING: this permanently deletes all data in these tables (profiles,
+-- team_requests, teams, team_members) and everything in them. There is no
+-- undo. Only run this if you're okay losing all existing rows.
+-- Run in the Supabase SQL editor.
+
+-- ============================================================
+-- 1. DROP everything (reverse dependency order)
+-- ============================================================
+
+drop trigger if exists trg_enforce_admin_cap on profiles;
+drop function if exists enforce_admin_cap();
+
+drop table if exists team_members cascade;
+drop table if exists teams cascade;
+drop table if exists team_requests cascade;
+drop table if exists profiles cascade;
+
+-- ============================================================
+-- 2. RECREATE schema
+-- ============================================================
 
 create extension if not exists "pgcrypto";
 
-create table if not exists profiles (
+create table profiles (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) not null unique,
   name text not null,
@@ -21,8 +40,10 @@ create table if not exists profiles (
   created_at timestamptz default now()
 );
 
--- Hard cap of 2 admins, enforced at the DB level (belt-and-suspenders alongside the
--- backend check in admin.controller.js — this is what actually stops a race condition).
+-- Hard cap of 2 admins, enforced at the DB level (belt-and-suspenders alongside
+-- the backend check in admin.controller.js — this is what actually stops a
+-- race condition). Change the "2" here AND MAX_ADMINS in admin.controller.js
+-- together if you ever want to raise the cap.
 create or replace function enforce_admin_cap()
 returns trigger as $$
 begin
@@ -39,7 +60,7 @@ create trigger trg_enforce_admin_cap
   before insert or update on profiles
   for each row execute function enforce_admin_cap();
 
-create table if not exists team_requests (
+create table team_requests (
   id uuid primary key default gen_random_uuid(),
   from_user_id uuid references auth.users(id) not null,
   to_user_id uuid references auth.users(id) not null,
@@ -47,21 +68,24 @@ create table if not exists team_requests (
   created_at timestamptz default now()
 );
 
-create table if not exists teams (
+create table teams (
   id uuid primary key default gen_random_uuid(),
   name text,
   hackathon text,
   created_at timestamptz default now()
 );
 
-create table if not exists team_members (
+create table team_members (
   team_id uuid references teams(id) not null,
   user_id uuid references auth.users(id) not null,
   role text,
   primary key (team_id, user_id)
 );
 
--- Row Level Security
+-- ============================================================
+-- 3. Row Level Security
+-- ============================================================
+
 alter table profiles enable row level security;
 alter table team_requests enable row level security;
 alter table teams enable row level security;

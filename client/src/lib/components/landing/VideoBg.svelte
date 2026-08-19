@@ -1,18 +1,33 @@
 <script>
-  export let src = 'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260809_012548_ef22562c-c0ae-4816-ad9d-f8922af4e6a7.mp4';
+  // Local hero video — see static/assets/hero.mp4. Not sourced yet, so we fail
+  // gracefully to a plain dark background instead of showing a broken video / the
+  // old placeholder CloudFront clip. Drop the real file in client/static/assets/hero.mp4
+  // and this will pick it up automatically, no code change needed.
+  export let src = '/assets/hero.mp4';
+
+  let videoFailed = false;
 </script>
 
 <div class="bg">
-  <video class="bg-video" autoplay muted loop playsinline>
-    <source {src} type="video/mp4" />
-  </video>
+  {#if !videoFailed}
+    <video
+      class="bg-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      on:error={() => (videoFailed = true)}
+    >
+      <source {src} type="video/mp4" />
+    </video>
+  {/if}
 </div>
 
 <style>
   .bg {
     position: absolute;
     inset: 0;
-    background: #000;
+    background: radial-gradient(120% 120% at 50% 0%, #141414 0%, #000 60%);
     overflow: hidden;
     z-index: 0;
   }

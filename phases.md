@@ -11,33 +11,33 @@ Break the build into phases so progress is trackable and there's always a demoab
 - [ ] Deploy a "hello world" of both frontend and backend to confirm pipeline works end-to-end early
 
 ## Phase 1 — Design System & Landing Page
-- [ ] Implement `design.md` tokens (colors, fonts, spacing) as CSS variables / Tailwind theme
-- [ ] Build Landing Page per the UI design prompt (video bg, header, hero, stats footer, mobile menu)
-- [ ] Confirm fonts load correctly (Inter, BubbledotICG-FinePos, Font Awesome)
+- [x] Implement `design.md` tokens (colors, fonts, spacing) as CSS variables / Tailwind theme
+- [x] Build Landing Page per the UI design prompt (video bg, header, hero, stats footer, mobile menu)
+- [x] Confirm fonts load correctly (Inter, BubbledotICG-FinePos, Font Awesome) — note: `GeistPixel-Circle.woff2` fallback file still missing, see memory.md
 
 ## Phase 2 — Auth + Profile
-- [ ] Sign up / Login flow
-- [ ] Protected routes (redirect unauthenticated users)
-- [ ] Profile creation form (skills, roles, level, interests, team-size pref)
-- [ ] Profile edit screen
+- [x] Sign up / Login flow
+- [x] Protected routes (redirect unauthenticated users)
+- [x] Profile creation form (skills, roles, level, interests, team-size pref)
+- [x] Profile edit screen
 - [ ] Seed 15–20 fake profiles for demo/testing
 
 ## Phase 3 — Matching Algorithm
-- [ ] Implement `matching.service.js` scoring function (architecture.md §5)
-- [ ] Unit-test scoring with a few known input pairs
-- [ ] Expose `/api/match/score/:otherUserId` endpoint
+- [x] Implement `matching.service.js` scoring function (architecture.md §5)
+- [x] Unit-test scoring with a few known input pairs
+- [x] Expose `/api/match/score/:otherUserId` endpoint
 
 ## Phase 4 — Discover & Search
-- [ ] Discover page: list/grid of profiles with compatibility % (relative to logged-in user)
-- [ ] Filters: role, skill, interest, level
-- [ ] Sort by compatibility score
-- [ ] Student detail view
+- [x] Discover page: list/grid of profiles with compatibility % (relative to logged-in user)
+- [x] Filters: role, skill, interest, level
+- [x] Sort by compatibility score
+- [x] Student detail view — folded into StudentCard (full profile) rather than a separate route
 
 ## Phase 5 — Team Requests
-- [ ] Send request from student detail view
-- [ ] Received/Sent request tabs with Accept/Decline
-- [ ] On accept, create/update `Team` entity
-- [ ] My Team page — show composition, roles filled vs missing
+- [x] Send request from student detail view
+- [x] Received/Sent request tabs with Accept/Decline
+- [x] On accept, create/update `Team` entity
+- [x] My Team page — show composition, roles filled vs missing
 
 ## Phase 6 — Polish & Demo Prep
 - [ ] Mobile responsiveness pass on every screen
@@ -52,6 +52,7 @@ Break the build into phases so progress is trackable and there's always a demoab
 - [ ] "Auto-suggest a full balanced team" feature
 - [ ] Notifications
 - [ ] Organizer dashboard
+- [x] Admin login/dashboard (max 2 admins) — done ahead of schedule, out-of-plan user request; verified end-to-end (signup → login → dashboard access) this session; see memory.md decisions log
 
 ## Suggested Time Allocation (typical 24–36 hr hackathon)
 | Phase | % of time |

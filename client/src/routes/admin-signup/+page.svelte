@@ -1,6 +1,7 @@
 <script>
   import { goto } from '$app/navigation';
   import { supabase } from '$lib/supabaseClient.js';
+  import { PUBLIC_API_URL } from '$env/static/public';
 
   let name = '';
   let email = '';
@@ -13,31 +14,51 @@
     errorMsg = '';
     loading = true;
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { name } }
-    });
+    try {
+      // Step 1: normal Supabase Auth signup — admins are still real auth.users rows.
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: { data: { name } }
+      });
+      if (error) throw error;
 
-    loading = false;
+      if (!data.session) {
+        checkEmail = true;
+        return;
+      }
 
-    if (error) {
-      errorMsg = error.message;
-      return;
+      // Session store updates async via onAuthStateChange in +layout.svelte — grab the
+      // fresh session directly off the signUp response instead of racing that listener.
+      const token = data.session.access_token;
+
+      // Step 2: promote to admin. Backend enforces the max-2 cap and returns
+      // "Admin limit reached (max 2)" once two admins already exist.
+      const res = await fetch(`${PUBLIC_API_URL}/api/admin/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({ name })
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        // Admin cap hit — sign the half-created auth user back out so they don't end up
+        // stuck in a signed-in-but-not-admin limbo from this page.
+        await supabase.auth.signOut();
+        throw new Error(body.error || 'Could not register as admin');
+      }
+
+      goto('/admin');
+    } catch (err) {
+      errorMsg = err.message;
+    } finally {
+      loading = false;
     }
-
-    // If email confirmation is on, Supabase returns a user but no session yet.
-    if (!data.session) {
-      checkEmail = true;
-      return;
-    }
-
-    goto('/onboarding');
   }
 </script>
 
 <svelte:head>
-  <title>Sign up — Hackathon Team Matcher</title>
+  <title>Admin sign up — Hackathon Team Matcher</title>
 </svelte:head>
 
 <div class="auth-page">
@@ -47,14 +68,16 @@
     {#if checkEmail}
       <h1>Check your inbox</h1>
       <p class="sub">
-        We sent a confirmation link to <strong>{email}</strong>. Click it, then come back and log in.
+        We sent a confirmation link to <strong>{email}</strong>. Click it, then come back and log in — you'll be
+        promoted to admin automatically on your next admin-signup attempt if a slot is still open.
       </p>
       <a href="/login" class="btn-primary" style="display:block; text-align:center; text-decoration:none;">
         Go to login
       </a>
     {:else}
-      <h1>Create your profile</h1>
-      <p class="sub">Find teammates whose skills complement yours.</p>
+      <span class="badge">Admin access</span>
+      <h1>Create an admin account</h1>
+      <p class="sub">Limited to 2 admins total. Once both slots are taken, this will be closed.</p>
 
       <form on:submit|preventDefault={handleSubmit}>
         <label>
@@ -69,13 +92,7 @@
 
         <label>
           Password
-          <input
-            type="password"
-            bind:value={password}
-            autocomplete="new-password"
-            minlength="6"
-            required
-          />
+          <input type="password" bind:value={password} autocomplete="new-password" minlength="6" required />
         </label>
 
         {#if errorMsg}
@@ -83,11 +100,11 @@
         {/if}
 
         <button type="submit" class="btn-primary" disabled={loading}>
-          {loading ? 'Creating account…' : 'Sign up'}
+          {loading ? 'Creating admin account…' : 'Create admin account'}
         </button>
       </form>
 
-      <p class="switch">Already have an account? <a href="/login">Log in</a></p>
+      <p class="switch">Not an admin? <a href="/signup">Regular sign up</a></p>
     {/if}
   </div>
 </div>
@@ -125,6 +142,20 @@
     border-radius: 20px;
     padding: 32px 28px;
     box-shadow: var(--nav-shadow);
+  }
+
+  .badge {
+    display: inline-block;
+    background: var(--surface-alt);
+    border: 1px solid var(--border);
+    color: var(--warning);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 12px;
   }
 
   h1 {
