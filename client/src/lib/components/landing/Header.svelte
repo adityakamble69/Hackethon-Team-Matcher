@@ -1,16 +1,17 @@
 <script>
-  const links = [
-    { label: 'Home', href: '/', active: true },
-    { label: 'Product', href: '/product' },
-    { label: 'Case Studies', href: '/case-studies' },
-    { label: 'Contact', href: '/contact' }
-  ];
+  import { page } from '$app/stores';
+  import { navLinks, isLinkActive } from '$lib/config/nav.js';
+  import { user, profile } from '$lib/stores/auth.js';
 
   export let mobileMenuOpen = false;
 
   function toggleMenu() {
     mobileMenuOpen = !mobileMenuOpen;
   }
+
+  // Dynamic display initial for the logged-in avatar: prefer profile name, fall back to email.
+  $: accountLabel = $profile?.name ?? $user?.email ?? '';
+  $: accountInitial = accountLabel ? accountLabel.trim().charAt(0).toUpperCase() : '';
 </script>
 
 <header class="header anim" style="--d: 0s">
@@ -19,12 +20,21 @@
   </a>
 
   <nav class="nav-pill desktop-only" aria-label="Primary">
-    {#each links as link}
-      <a href={link.href} class:active={link.active}>{link.label}</a>
+    {#each navLinks as link}
+      <a href={link.href} class:active={isLinkActive(link.href, $page.url.pathname)}>
+        {link.label}
+      </a>
     {/each}
   </nav>
 
-  <a class="sign-in desktop-only" href="/login">Sign in</a>
+  {#if $user}
+    <a class="account desktop-only" href="/my-team" title={accountLabel}>
+      <span class="account-avatar">{accountInitial}</span>
+      <span class="account-label">{$profile?.name ?? 'My Team'}</span>
+    </a>
+  {:else}
+    <a class="sign-in desktop-only" href="/login">Sign in</a>
+  {/if}
 
   <button
     class="burger mobile-only"
@@ -142,6 +152,50 @@
     background: #323234;
     color: #fff;
     transform: translateY(-1px);
+  }
+
+  .account {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: clamp(44px, 5.2vw, 48px);
+    padding: 4px 18px 4px 4px;
+    background: var(--pill-dark);
+    color: var(--sign-in-text);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: clamp(13px, 1.4vw, 15px);
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: var(--nav-shadow);
+    white-space: nowrap;
+    max-width: 190px;
+    transition:
+      background 0.2s ease,
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .account:hover {
+    background: #323234;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+  .account-avatar {
+    display: grid;
+    place-items: center;
+    width: clamp(34px, 4vw, 38px);
+    height: clamp(34px, 4vw, 38px);
+    border-radius: 50%;
+    background: #fff;
+    color: #000;
+    font-weight: 700;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .account-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .burger {

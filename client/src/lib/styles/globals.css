@@ -21,7 +21,7 @@
   --warning: #fbbf24;
   --danger: #f87171;
   --font-sans: 'Inter', 'Segoe UI', system-ui, sans-serif;
-  --font-display: 'BubbledotICG-FinePos', 'Geist Pixel Circle', monospace;
+  --font-display: 'BubbledotICG-FinePos', monospace;
 }
 
 body {
@@ -39,13 +39,6 @@ body:has(.page) {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-}
-
-@font-face {
-  font-family: 'Geist Pixel Circle';
-  src: url('/fonts/GeistPixel-Circle.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
 }
 
 /* Shared entrance animation — see design.md §5 */

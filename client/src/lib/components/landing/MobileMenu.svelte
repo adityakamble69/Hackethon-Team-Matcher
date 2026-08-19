@@ -1,13 +1,12 @@
 <script>
+  import { page } from '$app/stores';
+  import { navLinks, isLinkActive } from '$lib/config/nav.js';
+  import { user, profile } from '$lib/stores/auth.js';
+
   export let open = false;
   export let onClose = () => {};
 
-  const links = [
-    { label: 'Home', href: '/', active: true },
-    { label: 'Product', href: '/product' },
-    { label: 'Case Studies', href: '/case-studies' },
-    { label: 'Contact', href: '/contact' }
-  ];
+  $: accountLabel = $profile?.name ?? $user?.email ?? '';
 
   function handleKeydown(e) {
     if (e.key === 'Escape') onClose();
@@ -21,12 +20,23 @@
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <div class="sheet" on:click|stopPropagation>
-      {#each links as link, i}
-        <a href={link.href} class:active={link.active} style="--d: {i * 0.06}s" on:click={onClose}>
+      {#each navLinks as link, i}
+        <a
+          href={link.href}
+          class:active={isLinkActive(link.href, $page.url.pathname)}
+          style="--d: {i * 0.06}s"
+          on:click={onClose}
+        >
           {link.label}
         </a>
       {/each}
-      <a class="sign-in-link" href="/login" on:click={onClose}>Sign in</a>
+      {#if $user}
+        <a class="sign-in-link" href="/my-team" on:click={onClose}>
+          {accountLabel ? `My Team · ${accountLabel}` : 'My Team'}
+        </a>
+      {:else}
+        <a class="sign-in-link" href="/login" on:click={onClose}>Sign in</a>
+      {/if}
     </div>
   </div>
 {/if}
@@ -90,6 +100,9 @@
     color: var(--sign-in-text) !important;
     border-radius: 999px;
     font-weight: 600 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @keyframes overlayIn {
