@@ -21,17 +21,18 @@
 
 <div class="shell">
   <header class="topbar">
-    <a class="brand" href="/discover">
+    <a class="brand" href={$isAdmin ? '/admin' : '/discover'}>
       <img src="/assets/logo.webp" alt="" width="32" height="32" />
       <span>Team Matcher</span>
     </a>
 
     <nav class="tabs" aria-label="Primary">
-      {#each navLinks as link}
-        <a href={link.href} class:active={currentPath.startsWith(link.href)}>{link.label}</a>
-      {/each}
       {#if $isAdmin}
         <a href="/admin" class:active={currentPath.startsWith('/admin')}>Admin</a>
+      {:else}
+        {#each navLinks as link}
+          <a href={link.href} class:active={currentPath.startsWith(link.href)}>{link.label}</a>
+        {/each}
       {/if}
     </nav>
 

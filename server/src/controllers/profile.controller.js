@@ -28,6 +28,7 @@ export async function discoverProfiles(req, res) {
 
     const withScores = profiles
       .filter((p) => p.user_id !== req.user.id) // never show yourself in discover
+      .filter((p) => p.role !== 'admin') // admins aren't teammates — keep them out of discover
       .map((p) => ({
         ...p,
         compatibility_score: me ? computeCompatibilityScore(me, p) : null,
